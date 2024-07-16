@@ -24,6 +24,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "@grammyjs/parse-mode": "^1.10.0",
     "grammy": "^1.27.0",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",

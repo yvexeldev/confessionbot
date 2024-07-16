@@ -1,6 +1,7 @@
 import bot from './config/bot';
 import sequelize from './config/database';
-import './composers';
+import './actions';
+import { parseMode } from '@grammyjs/parse-mode';
 
 async function bootstrap() {
     // Syncing database
@@ -10,10 +11,7 @@ async function bootstrap() {
     });
     console.log('Database synced!');
 
-    bot.command('start', async (ctx) => {
-        await ctx.reply(`${ctx.chat.id}`);
-    });
-
+    bot.api.config.use(parseMode('HTML'));
     // Bot start
     console.log('Bot starting... ');
     bot.start();
