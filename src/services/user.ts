@@ -16,9 +16,7 @@ export async function newUser(ctx: Context) {
 }
 
 export async function changeStep(ctx: Context, step: string) {
-    const user = await newUser(ctx);
-    user.step = step;
-    await user.save();
+    await User.update({ step }, { where: { telegram_id: String(ctx.from?.id) } });
 }
 
 export async function checkStep(ctx: Context, step: string) {
@@ -27,27 +25,18 @@ export async function checkStep(ctx: Context, step: string) {
 }
 
 export async function changeNickname(ctx: Context, nickname: string) {
-    const stepcheck = await checkStep(ctx, 'set_nickname');
-    if (!stepcheck) {
-        return;
-    }
-    const user = await newUser(ctx);
-    user.nickname = nickname;
-    await user.save();
+    await User.update({ nickname }, { where: { telegram_id: String(ctx.from?.id) } });
 }
 
 export async function deleteNickname(ctx: Context) {
-    const stepcheck = await checkStep(ctx, 'set_nickname');
-    if (!stepcheck) {
-        return;
-    }
-    const user = await newUser(ctx);
-    user.nickname = '';
-    await user.save();
+    await changeNickname(ctx, '');
 }
 
 export async function setCrown(ctx: Context) {
+    await User.update({ has_crown: true }, { where: { telegram_id: String(ctx.from?.id) } });
+}
+
+export async function getNickname(ctx: Context) {
     const user = await newUser(ctx);
-    user.has_crown = true;
-    await user.save();
+    return user.nickname;
 }
