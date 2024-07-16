@@ -1,6 +1,6 @@
 import { Composer, Context } from 'grammy';
 import bot from '../config/bot';
-import { changeNickname, changeStep, checkStep, deleteNickname, getNickname } from '../services/user';
+import { changeStep, checkStep, deleteNickname, getNickname } from '../services/user';
 import messages from '../libs/messages';
 import keyboards from '../libs/keyboards';
 
@@ -15,7 +15,7 @@ composer.hears('Hикнeйм', async (ctx: Context) => {
         reply_markup: keyboards.set_nickname
     });
     const nickname = await getNickname(ctx);
-    await ctx.reply(`👉 Ваш никнейм: ${nickname}`);
+    await ctx.reply(`👉 Ваш никнейм: ${nickname != '' ? nickname : '<i>Пусто</i>'}`);
 });
 
 composer.hears('Hoвый никнeйм', async (ctx: Context) => {
@@ -57,25 +57,10 @@ composer.hears('Oтмeнa ❌', async (ctx: Context) => {
             reply_markup: keyboards.set_nickname
         });
         const nickname = await getNickname(ctx);
-        await ctx.reply(`👉 Ваш никнейм: ${nickname}`);
+        await ctx.reply(`👉 Ваш никнейм: ${nickname != '' ? nickname : '<i>Пусто</i>'}`);
+
         await changeStep(ctx, 'set_nickname');
     }
 });
 
-composer.on('message', async (ctx: Context) => {
-    const checkstep = await checkStep(ctx, 'new_nickname');
-    if (!checkstep) {
-        return;
-    }
-    const nickname = ctx.message?.text;
-    if (!nickname) {
-        return;
-    }
-    await changeNickname(ctx, nickname);
-    await ctx.reply(messages.new_nickname);
-    await ctx.reply(messages.menu, {
-        reply_markup: keyboards.menu
-    });
-    await changeStep(ctx, 'start');
-});
 bot.use(composer.middleware());

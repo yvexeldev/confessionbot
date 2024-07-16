@@ -10,7 +10,7 @@ const sequelize = new Sequelize({
     password: envConfig.db_password,
     host: envConfig.db_host,
     port: Number(envConfig.db_port),
-    models: [User, Message],
+    models: [Message, User],
     logging: false
 });
 

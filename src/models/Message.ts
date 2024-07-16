@@ -5,7 +5,7 @@ import { User } from './User';
     tableName: 'messages',
     timestamps: false
 })
-export class Message extends Model<Message> {
+export class Message extends Model {
     @ForeignKey(() => User)
     @Column
     from_id!: number;

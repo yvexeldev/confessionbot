@@ -1,9 +1,10 @@
 import { Context } from 'grammy';
 import { User } from '../models/User';
+import { Message } from '../models/Message';
 
 // returns user if exists, creates it if not
 export async function newUser(ctx: Context) {
-    const user = await User.findOne({ where: { telegram_id: String(ctx.from?.id) } });
+    const user = await User.findOne({ where: { telegram_id: String(ctx.from?.id) }, include: { model: Message } });
     if (!user) {
         return await User.create({
             telegram_id: String(ctx.from?.id),
@@ -36,6 +37,9 @@ export async function setCrown(ctx: Context) {
     await User.update({ has_crown: true }, { where: { telegram_id: String(ctx.from?.id) } });
 }
 
+export async function getUser(id: number) {
+    return await User.findByPk(id);
+}
 export async function getNickname(ctx: Context) {
     const user = await newUser(ctx);
     return user.nickname;

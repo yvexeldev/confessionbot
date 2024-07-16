@@ -7,7 +7,6 @@ const composer = new Composer();
 
 composer.hears('Cчeтчик cоoбщeний 📝', async (ctx: Context) => {
     const user = await newUser(ctx);
-    console.log(user.messages);
     if (!user.messages) {
         user.messages = [];
     }
