@@ -3,6 +3,10 @@ import { Message } from './Message';
 
 @Table({ tableName: 'users', timestamps: true })
 export class User extends Model {
+    @Default(0)
+    @Column
+    count!: number;
+
     @Unique
     @AllowNull
     @Column
@@ -26,6 +30,10 @@ export class User extends Model {
     @Default(false)
     @Column
     has_crown!: boolean;
+
+    @Default(false)
+    @Column
+    is_blocked!: boolean;
 
     @Default('start')
     @Column

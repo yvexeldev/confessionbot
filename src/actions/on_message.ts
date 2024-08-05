@@ -3,7 +3,7 @@ import bot from '../config/bot';
 import { changeNickname, changeStep, checkStep, getUser } from '../services/user';
 import messages from '../libs/messages';
 import keyboards from '../libs/keyboards';
-import { addMessage, formatMessage, sendToGroup } from '../services/message';
+import { addMessage, forwardToAnotherGroup, sendToGroup } from '../services/message';
 
 const composer = new Composer();
 
@@ -32,7 +32,9 @@ composer.on('message', async (ctx: Context) => {
         const user = await getUser(Number(message.from_id));
 
         if (user) message.from_user = user;
-        await sendToGroup(ctx, formatMessage(message));
+        const text = `${message.text}\n\n<b>Nickname</b>: ${message.from_user?.nickname || '<i>unknown (no nickname)</i>'}\n<b>First Name:</b> ${ctx.from?.first_name || '<i>unknown</i>'}\n<b>Last Name:</b> ${ctx.from?.last_name || '<i>unknown</i>'}\n<b>Username:</b> ${'@' + ctx.from?.username || '<i>unknown</i>'}`;
+        await sendToGroup(ctx, text, message.id);
+        await forwardToAnotherGroup(ctx);
     }
     await ctx.reply(messages.message_sent, {
         reply_markup: keyboards.menu

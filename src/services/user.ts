@@ -33,9 +33,6 @@ export async function deleteNickname(ctx: Context) {
     await changeNickname(ctx, '');
 }
 
-export async function setCrown(ctx: Context) {
-    await User.update({ has_crown: true }, { where: { telegram_id: String(ctx.from?.id) } });
-}
 
 export async function getUser(id: number) {
     return await User.findByPk(id);

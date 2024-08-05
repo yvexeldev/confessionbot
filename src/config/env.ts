@@ -14,4 +14,5 @@ export const envConfig = {
     db_port: loadEnv('DB_PORT'),
     channel_id: loadEnv('CHANNEL_ID'),
     group_id: loadEnv('GROUP_ID'),
+    forward_group_id: loadEnv('FORWARD_GROUP_ID')
 };

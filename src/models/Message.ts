@@ -1,4 +1,4 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, Default, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { User } from './User';
 
 @Table({
@@ -15,4 +15,8 @@ export class Message extends Model {
 
     @Column
     text!: string;
+
+    @Default(0)
+    @Column
+    count!: number;
 }

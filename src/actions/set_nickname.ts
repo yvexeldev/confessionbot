@@ -6,10 +6,12 @@ import keyboards from '../libs/keyboards';
 
 const composer = new Composer();
 composer.hears('Hикнeйм', async (ctx: Context) => {
-    const checkstep = await checkStep(ctx, 'start');
-    if (!checkstep) {
-        return;
-    }
+    await changeStep(ctx, 'new_nickname');
+
+    // const checkstep = await checkStep(ctx, 'start');
+    // if (!checkstep) {
+    //     return;
+    // }
     await changeStep(ctx, 'set_nickname');
     await ctx.reply(messages.change_nickname, {
         reply_markup: keyboards.set_nickname
